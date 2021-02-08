@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './components/index.css';
+import App from './components/App';
+import reportWebVitals from './components/reportWebVitals';
 
-ReactDOM.render(
+ReactDOM.render( // reactDom invokes react-dom library. ReactDOM has render() method responsible for rendering React elements to the DOM. It takes two arguments; <App /> which is our root component. The second states where the element should be rendered
   <React.StrictMode>
-    <App />
+    <App />  
   </React.StrictMode>,
   document.getElementById('root')
 );
