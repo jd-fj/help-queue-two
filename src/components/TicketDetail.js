@@ -9,11 +9,13 @@ export default function TicketDetail(props){
       <h3>{ticket.location} - {ticket.names}</h3>
       <p><em>{ticket.issue}</em></p>
       <button onClick={()=> onClickingDelete(ticket.id)}>Delete Ticket</button>
+      <button onClick={props.onClickingEdit}>Edit Ticket</button>
       <hr/>
     </>
   )
 }
 TicketDetail.propTypes = {
   ticket: PropTypes.object,
-  onClickingDelete: PropTypes.func
+  onClickingDelete: PropTypes.func,
+  onClickingEdit: PropTypes.func
 };
