@@ -14,30 +14,7 @@ export default class TicketControl extends React.Component {
     this.state = {
       formVisibleOnPage: false,
       selectedTicket: null,
-      editing: false,
-      // masterTicketList: [
-      //   {
-      //     names: 'Thato and Haley',
-      //     location: '3A',
-      //     issue: 'Firebase won\'t save record. Halp.',
-      //     key: 0,
-      //     id: "0"
-      //   },
-      //   {
-      //     names: 'Taylor',
-      //     location: '6B',
-      //     issue: 'My shoe is untied',
-      //     key: 1,
-      //     id: "1"
-      //   },
-      //   {
-      //     names: 'Brian Eno',
-      //     location: '5A',
-      //     issue: 'running to tie Taylor\'s shoes',
-      //     key: 2,
-      //     id: "2"
-      //   }
-      // ]
+      editing: false
     };
   }
 
@@ -87,7 +64,7 @@ export default class TicketControl extends React.Component {
   }
 
   handleChangingSelectedTicket = (id) => {
-    const selectedTicket = this.state.masterTicketList.filter(ticket => ticket.id === id)[0];
+    const selectedTicket = this.props.masterTicketList[0];
     this.setState({selectedTicket: selectedTicket});
   }
 
@@ -124,7 +101,7 @@ export default class TicketControl extends React.Component {
       currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList}/>;
       buttonText = "Return to Ticket List"; 
     } else {
-      currentlyVisibleState = <TicketList ticketList={this.state.masterTicketList} onTicketSelection={this.handleChangingSelectedTicket}/>;
+      currentlyVisibleState = <TicketList ticketList={this.props.masterTicketList} onTicketSelection={this.handleChangingSelectedTicket}/>;
       buttonText = "Add Ticket"; 
     }
 
