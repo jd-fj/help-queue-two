@@ -12,19 +12,25 @@ describe('ticketListReducer', () => {
 
   test('Should return default state if there is no action type passed into the reducer', () => {
     expect(ticketListReducer({}, { type: null })).toEqual({});  // first arg is current state, second is action applied to state
+  });
 
-    // test('Should successfully add new ticket data to masterTicketList', () => {
-    //   const { names, location, issue, id } = ticketData;
-    //   action = {
-    //     type: 'ADD_TICKET',
-    //   };
-    // });
+  test('Should successfully add new ticket data to masterTicketList', () => {
+    const { names, location, issue, id } = ticketData;
+    action = {
+      type: 'ADD_TICKET',
+      names: names,
+      location: location,
+      issue: issue,
+      id: id
+    };
+
+    expect(ticketListReducer({}, action)).toEqual({
+      [id] : {
+        names: names,
+        location: location,
+        issue: issue,
+        id: id
+      }
+    });
   });
 });
-    
-    
-    
-    
-    
-    
-  
