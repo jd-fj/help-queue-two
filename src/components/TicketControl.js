@@ -3,6 +3,7 @@ import NewTicketForm from './NewTicketForm';
 import TicketList from './TicketList';
 import TicketDetail from './TicketDetail';
 import EditTicketForm from './EditTicketForm';
+import { connect } from 'react-redux';
 
 export default class TicketControl extends React.Component {
 
@@ -117,3 +118,5 @@ export default class TicketControl extends React.Component {
     );
   }
 }
+
+TicketControl = connect()(TicketControl); //connect redefines entire TicketControl component as new TicketControl with additional func. e.g. dispatch() mand mapStateToProps()
