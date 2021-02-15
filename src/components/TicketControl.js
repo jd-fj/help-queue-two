@@ -4,6 +4,7 @@ import TicketList from './TicketList';
 import TicketDetail from './TicketDetail';
 import EditTicketForm from './EditTicketForm';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 export default class TicketControl extends React.Component {
 
@@ -67,6 +68,23 @@ export default class TicketControl extends React.Component {
     dispatch(action); //send action to update store!
     this.setState({formVisibleOnPage: false})
   }
+  
+  handleEditingTicketInList = (ticketToEdit) => {
+    const { dispatch } = this.props;
+    const { id, names, location, issue } = ticketToEdit;
+    const action = {
+      type: 'ADD_TICKET',
+      id: id,
+      names: names,
+      location: location,
+      issue: issue,
+    }
+    dispatch(action);
+    this.setState({
+      editing: false,
+      selectedTicket: null
+    });
+  }
 
   handleChangingSelectedTicket = (id) => {
     const selectedTicket = this.state.masterTicketList.filter(ticket => ticket.id === id)[0];
@@ -74,27 +92,18 @@ export default class TicketControl extends React.Component {
   }
 
   handleDeletingTicket = (id) => {
-    const newMasterTicketList = this.state.masterTicketList.filter(ticket => ticket.id !== id);
-    this.setState({
-      masterTicketList: newMasterTicketList,
-      selectedTicket: null
-    });
+    const { dispatch } = this.props;
+    const action = {
+      type: 'DELETE_TICKET',
+      id: id
+    }
+    dispatch(action);
+    this.setState({ selectedTicket: null });
   }
 
   handleEditClick = () => {
     console.log("handleEditClick reached");
     this.setState({editing: true});
-  }
-
-  handleEditingTicketInList = (ticketToEdit) => {
-    const editedMasterTicketList = this.state.masterTicketList
-      .filter(ticket => ticket.id !== this.state.selectedTicket.id)
-      .concat(ticketToEdit);
-    this.setState({
-      masterTicketList: editedMasterTicketList,
-      editing: false,
-      selectedTicket: null
-    });
   }
 
   render(){
@@ -128,4 +137,14 @@ export default class TicketControl extends React.Component {
   }
 }
 
-TicketControl = connect()(TicketControl); //connect redefines entire TicketControl component as new TicketControl with additional func. e.g. dispatch() mand mapStateToProps() connect() is an HOC!
+TicketControl.propTypes = {
+  masterTicketList: PropTypes.object
+}
+
+const mapStateToProps = state => {
+  return {
+    masterTicketList: state //key-value pair of state to be mapped from Redux to React component. These determin the state slices that should be mapped to the commpenent's props. in our case we want masterTicketList from the store to be mapped to TicketControl's props, thus we need to import and define PropTypes
+  }
+}
+
+TicketControl = connect(mapStateToProps)(TicketControl); //connect redefines entire TicketControl component as new TicketControl with additional func. e.g. dispatch() mand mapStateToProps() connect() is an HOC!
