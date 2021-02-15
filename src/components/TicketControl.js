@@ -9,33 +9,34 @@ export default class TicketControl extends React.Component {
 
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
       formVisibleOnPage: false,
       selectedTicket: null,
       editing: false,
-      masterTicketList: [
-        {
-          names: 'Thato and Haley',
-          location: '3A',
-          issue: 'Firebase won\'t save record. Halp.',
-          key: 0,
-          id: "0"
-        },
-        {
-          names: 'Taylor',
-          location: '6B',
-          issue: 'My shoe is untied',
-          key: 1,
-          id: "1"
-        },
-        {
-          names: 'Brian Eno',
-          location: '5A',
-          issue: 'running to tie Taylor\'s shoes',
-          key: 2,
-          id: "2"
-        }
-      ]
+      // masterTicketList: [
+      //   {
+      //     names: 'Thato and Haley',
+      //     location: '3A',
+      //     issue: 'Firebase won\'t save record. Halp.',
+      //     key: 0,
+      //     id: "0"
+      //   },
+      //   {
+      //     names: 'Taylor',
+      //     location: '6B',
+      //     issue: 'My shoe is untied',
+      //     key: 1,
+      //     id: "1"
+      //   },
+      //   {
+      //     names: 'Brian Eno',
+      //     location: '5A',
+      //     issue: 'running to tie Taylor\'s shoes',
+      //     key: 2,
+      //     id: "2"
+      //   }
+      // ]
     };
   }
 
@@ -54,9 +55,17 @@ export default class TicketControl extends React.Component {
   }
 
   handleAddingNewTicketToList = (newTicket) => {
-    const newMasterTicketList = this.state.masterTicketList.concat(newTicket);
-    this.setState({masterTicketList: newMasterTicketList,
-      formVisibleOnPage: false})
+    const { dispatch } = this.props; //makes code cleaner, not necessary
+    const { id, names, location, issue } = newTicket; //destructure values from newTicket to pass to action
+    const action = {
+      type: 'ADD_TICKET',
+      id: id, 
+      names: names,
+      location: location,
+      issues: issue,
+    }
+    dispatch(action); //send action to update store!
+    this.setState({formVisibleOnPage: false})
   }
 
   handleChangingSelectedTicket = (id) => {
@@ -119,4 +128,4 @@ export default class TicketControl extends React.Component {
   }
 }
 
-TicketControl = connect()(TicketControl); //connect redefines entire TicketControl component as new TicketControl with additional func. e.g. dispatch() mand mapStateToProps()
+TicketControl = connect()(TicketControl); //connect redefines entire TicketControl component as new TicketControl with additional func. e.g. dispatch() mand mapStateToProps() connect() is an HOC!
