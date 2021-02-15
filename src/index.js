@@ -9,6 +9,10 @@ import { Provider } from 'react-redux'; //provider will give all its children ac
 
 const store = createStore(reducer); //connect our reducer to store here
 
+store.subscribe(() => 
+  console.log(store.getState())
+);
+
 ReactDOM.render( 
   <Provider store={store}>
     <App />  
