@@ -12,7 +12,6 @@ export default class TicketControl extends React.Component {
     super(props);
     console.log(props);
     this.state = {
-      formVisibleOnPage: false,
       selectedTicket: null,
       editing: false
     };
@@ -21,14 +20,15 @@ export default class TicketControl extends React.Component {
   handleClick = () => {
     if (this.state.selectedTicket != null) {
       this.setState({
-        formVisibleOnPage: false,
         selectedTicket: null,
         editing: false
       });
     } else {
-      this.setState(prevState => ({
-        formVisibleOnPage: !prevState.formVisibleOnPage,
-      }));
+      const { dispatch } = this.props;
+      const action = {
+        type: 'TOGGLE_FORM'
+      }
+      dispatch(action);
     }
   }
 
@@ -43,7 +43,10 @@ export default class TicketControl extends React.Component {
       issues: issue,
     }
     dispatch(action); //send action to update store!
-    this.setState({formVisibleOnPage: false})
+    const action2 = {
+      type: 'TOGGLE_FORM'
+    }
+    dispatch(action2);
   }
   
   handleEditingTicketInList = (ticketToEdit) => {
@@ -97,7 +100,7 @@ export default class TicketControl extends React.Component {
       onClickingDelete={this.handleDeletingTicket} 
       onClickingEdit={this.handleEditClick}/>
       buttonText = "Return to Ticket List";
-    } else if (this.state.formVisibleOnPage) {
+    } else if (this.props.formVisibleOnPage) {
       currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList}/>;
       buttonText = "Return to Ticket List"; 
     } else {
@@ -115,13 +118,16 @@ export default class TicketControl extends React.Component {
 }
 
 TicketControl.propTypes = {
-  masterTicketList: PropTypes.object
+  masterTicketList: PropTypes.object, 
+  formVisibleOnPage: PropTypes.bool
 }
 
 const mapStateToProps = state => {
   return {
-    masterTicketList: state //key-value pair of state to be mapped from Redux to React component. These determin the state slices that should be mapped to the commpenent's props. in our case we want masterTicketList from the store to be mapped to TicketControl's props, thus we need to import and define PropTypes
+    masterTicketList: state.masterTicketList,
+    formVisibleOnPage: state.formVisibleOnPage 
   }
 }
+//key-value pair of state to be mapped from Redux to React component. These determin the state slices that should be mapped to the commpenent's props. in our case we want masterTicketList from the store to be mapped to TicketControl's props, thus we need to import and define PropTypes
 
-TicketControl = connect(mapStateToProps)(TicketControl); //connect redefines entire TicketControl component as new TicketControl with additional func. e.g. dispatch() mand mapStateToProps() connect() is an HOC!
+TicketControl = connect(mapStateToProps)(TicketControl); //connect redefines entire TicketControl component as new TicketControl with additional func. e.g. dispatch() mand mapStateToProps().  connect() is an HOC!
